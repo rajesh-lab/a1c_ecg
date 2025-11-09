@@ -219,28 +219,5 @@ def make_nn(input_list, builder, label_dict, **params):
 
     return Model(inputs, outputs) 
 
-# Makes the logistic regression Model
-def make_lr(**params):
-    model = LogisticRegression(penalty='elasticnet', solver='saga', 
-                               l1_ratio=params['l1_ratio'], C=params['c'])
-    
-    return model
-
-# Makes the XGBoost Model
-def make_xgb(**params):
-    #Select Relavant Paramters
-    p = ['colsample_bytree', 'eta', 'eval_metric', 'max_depth', 
-         'min_child_weight', 'objective','subsample','num_class']
-    model_params = {k:v for k,v in params.items() if k in p}
-    
-    return model_params
-
-# Master Function to Make the Model
 def make_model(input_list, builder, label_dict,**params):
-    
-    if params['model_type'] == 'nn':
-        return make_nn(input_list, builder, label_dict, **params)
-    elif params['model_type'] == 'lr':
-        return  make_lr(**params)
-    elif params['model_type'] == 'xgb':
-        return make_xgb(**params)
+    return make_nn(input_list, builder, label_dict, **params)
