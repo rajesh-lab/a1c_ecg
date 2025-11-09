@@ -23,10 +23,7 @@ def make_loss_fn(label_dict):
 def make_metrics_fn(label_dict):
     metrics_fn = dict()
     for k, v in label_dict.items():
-        if v['metrics'] in ['failure', 'censorship']:
-            metrics_fn[k] = concordance_metric(v['metrics'], v['boundaries'])
-        else:
-            metrics_fn[k] = v['metrics']
+        metrics_fn[k] = v['metrics']
             
     return metrics_fn
 
@@ -45,21 +42,13 @@ def train_nn(model, model_dir, train_data, val_data, label_dict, **params):
     metrics_fn = make_metrics_fn(label_dict)
     
     ## Compile
-#     # Comment 3/14/2024, depending on the tf version, you'll need weighted_metrics instead of metrics to properly evaluate
     model.compile(
         loss=loss_fn,
         optimizer=optimizers.Adam(params['learning_rate']),
         metrics=metrics_fn,
         loss_weights = loss_weight
     )
-    
-#     model.compile(
-#         loss=loss_fn,
-#         optimizer=optimizers.Adam(params['learning_rate']),
-#         weighted_metrics=metrics_fn,
-#         loss_weights = loss_weight
-#     )
-    
+
     #3. Checkpoint + Callbacks
     checkpoint = ModelCheckpoint(
          output_weights_path,
