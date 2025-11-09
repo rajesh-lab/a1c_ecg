@@ -11,8 +11,6 @@ from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, Early
 
 import tensorflow_probability as tfp
 
-from sksurv.metrics import concordance_index_censored
-
 # Return Dictionary of Loss Functions
 def make_loss_fn(label_dict):
     loss_fn = dict()
